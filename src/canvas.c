@@ -1,22 +1,14 @@
 #include "canvas.h"
 
-cnv_canvas* cnv_new(int width, int height) {
-    cnv_canvas* canvas = malloc(sizeof(cnv_canvas));
-    if (!canvas) abort();
+cnv_canvas cnv_new(int width, int height) {
+    cnv_canvas canvas = {width, height, 0, 0, (cnv_pixel**) malloc(sizeof(cnv_pixel*) * width)};
 
-    canvas->width = width;
-    canvas->height = height;
-    canvas->x = 0;
-    canvas->y = 0;
-    
-    canvas->canvas = (cnv_pixel**) malloc(sizeof(cnv_pixel*) * height);
-
-    for (int i = 0; i < height; i++) {
-        canvas->canvas[i] = (cnv_pixel*) malloc(sizeof(cnv_pixel) * width);
+    for (int i = 0; i < width; i++) {
+        canvas.canvas[i] = (cnv_pixel*) malloc(sizeof(cnv_pixel) * height);
     }
 
-    if (!canvas->canvas) {
-        free(canvas);
+    if (!canvas.canvas) {
+        free(canvas.canvas);
         abort();
     }
 
@@ -41,10 +33,10 @@ ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, int r, int g, int b) {
     }
 
     cnv_pixel* position = &c->canvas[c->x][c->y];
-
-    position->pixel.x = r;
-    position->pixel.y = g;
-    position->pixel.z = b;
+    
+    position->r = r;
+    position->g = g;
+    position->b = b;
 
     if (c->x >= c->width - 1) {
         c->x = 0;
@@ -65,9 +57,9 @@ ERR_ERROR cnv_write_to_file_ppm(cnv_canvas* c, const char* file_name) {
     for (int y = 0; y < c->height; y++) {
         for (int x = 0; x < c->width; x++) {
             cnv_pixel* current_pixel = &c->canvas[x][y];
-            int r = current_pixel->pixel.x;
-            int g = current_pixel->pixel.y;
-            int b = current_pixel->pixel.z;
+            int r = current_pixel->r;
+            int g = current_pixel->g;
+            int b = current_pixel->b;
             fprintf(file, "%d %d %d\n", r, g, b);
         }
     }
@@ -82,7 +74,6 @@ ERR_ERROR cnv_delete(cnv_canvas* c) {
     if (!c) return ERR_NULL_VALUE;
 
     free(c->canvas);
-    free(c);
 
     return ERR_NO_ERROR;
 }

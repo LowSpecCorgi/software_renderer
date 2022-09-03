@@ -14,7 +14,7 @@
 #include <errno.h>
 
 typedef struct {
-    v3_colour pixel;
+    int r, g, b;
 } cnv_pixel;
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
  * @param height The height of the canvas
  * @return cnv_canvas* The resulting canvas
  */
-cnv_canvas* cnv_new(int width, int height);
+cnv_canvas cnv_new(int width, int height);
 
 /**
  * @brief This will check whether the specified position is in bounds of the canvas
