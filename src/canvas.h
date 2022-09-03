@@ -6,6 +6,7 @@
 #define CANVAS_H
 
 #include "debug/error.h"
+#include "math/vec3.h"
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -13,9 +14,7 @@
 #include <errno.h>
 
 typedef struct {
-    int r;
-    int g;
-    int b;
+    v3_colour pixel;
 } cnv_pixel;
 
 typedef struct {

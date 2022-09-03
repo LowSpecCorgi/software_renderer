@@ -42,11 +42,9 @@ ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, int r, int g, int b) {
 
     cnv_pixel* position = &c->canvas[c->x][c->y];
 
-    position->r = r;
-    position->g = g;
-    position->b = b;
-
-    printf("\nX: %d, Y: %d", c->x, c->y);
+    position->pixel.x = r;
+    position->pixel.y = g;
+    position->pixel.z = b;
 
     if (c->x >= c->width - 1) {
         c->x = 0;
@@ -67,9 +65,9 @@ ERR_ERROR cnv_write_to_file_ppm(cnv_canvas* c, const char* file_name) {
     for (int y = 0; y < c->height; y++) {
         for (int x = 0; x < c->width; x++) {
             cnv_pixel* current_pixel = &c->canvas[x][y];
-            int r = current_pixel->r;
-            int g = current_pixel->g;
-            int b = current_pixel->b;
+            int r = current_pixel->pixel.x;
+            int g = current_pixel->pixel.y;
+            int b = current_pixel->pixel.z;
             fprintf(file, "%d %d %d\n", r, g, b);
         }
     }
