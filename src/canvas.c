@@ -25,7 +25,7 @@ ERR_ERROR cnv_is_in_bounds(cnv_canvas* c, int x, int y) {
     return true;
 }
 
-ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, int r, int g, int b) {
+ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, v3_colour colour) {
     if (!c) return ERR_NULL_VALUE;
 
     if (!cnv_is_in_bounds(c, c->x, c->y)) {
@@ -33,10 +33,10 @@ ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, int r, int g, int b) {
     }
 
     cnv_pixel* position = &c->canvas[c->x][c->y];
-    
-    position->r = r;
-    position->g = g;
-    position->b = b;
+
+    position->colour.x = colour.x;
+    position->colour.y = colour.y;
+    position->colour.z = colour.z;
 
     if (c->x >= c->width - 1) {
         c->x = 0;
@@ -57,9 +57,9 @@ ERR_ERROR cnv_write_to_file_ppm(cnv_canvas* c, const char* file_name) {
     for (int y = 0; y < c->height; y++) {
         for (int x = 0; x < c->width; x++) {
             cnv_pixel* current_pixel = &c->canvas[x][y];
-            int r = current_pixel->r;
-            int g = current_pixel->g;
-            int b = current_pixel->b;
+            int r = current_pixel->colour.x;
+            int g = current_pixel->colour.y;
+            int b = current_pixel->colour.z;
             fprintf(file, "%d %d %d\n", r, g, b);
         }
     }

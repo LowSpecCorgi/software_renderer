@@ -14,7 +14,7 @@
 #include <errno.h>
 
 typedef struct {
-    int r, g, b;
+    v3_colour colour;
 } cnv_pixel;
 
 typedef struct {
@@ -47,7 +47,7 @@ ERR_ERROR cnv_is_in_bounds(cnv_canvas* c, int x, int y);
  * @param b Blue channel
  * @return A potential ERROR
  */
-ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, int r, int g, int b);
+ERR_ERROR cnv_put_pixel_next(cnv_canvas* c, v3_colour colour);
 
 /**
  * @brief Outputs the canvas to a file. Uses the .ppm image format
