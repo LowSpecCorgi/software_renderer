@@ -36,6 +36,7 @@ v3_vec3 v3_normalise(v3_vec3 a);
 
 v3_vec3 v3_multiply_scalar(v3_vec3 a, double t);
 v3_vec3 v3_add_scalar(v3_vec3 a, double t);
+v3_vec3 v3_subtract_scalar(v3_vec3 a, double t);
 v3_vec3 v3_divide_scalar(v3_vec3 a, double t);
 
 double v3_get_length(v3_vec3 a);

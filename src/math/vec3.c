@@ -45,6 +45,10 @@ v3_vec3 v3_add_scalar(v3_vec3 a, double t) {
     return v3_new(a.x + t, a.y + t, a.z + t);
 }
 
+v3_vec3 v3_subtract_scalar(v3_vec3 a, double t) {
+    return v3_new(a.x - t, a.y - t, a.z - t);
+}
+
 v3_vec3 v3_divide_scalar(v3_vec3 a, double t) {
     return v3_new(a.x / t, a.y / t, a.z / t);
 }
