@@ -9,26 +9,30 @@
 #define CANVAS_WIDTH 400
 #define CANVAS_HEIGHT CANVAS_WIDTH * ASPECT_RATIO
 
-bool hit_sphere(ry_ray* r) {
-    v3_point3 center = v3_subtract(r->origin, v3_new(0.0, 0.0, -1.0));
-    double radius = 0.5;
-    double a = v3_dot(r->direction, r->direction);
-    double b = 2.0 * v3_dot(center, r->direction);
-    double c = v3_dot(center, center) - radius * radius;
-    double discriminant = b * b - 4 * a * c;
+double hit_sphere(ry_ray* r, double radius, v3_point3 centre) {
+    v3_point3 oc = v3_subtract(r->origin, centre);
+    double a = v3_get_length_squared(r->direction);
+    double b = v3_dot(oc, r->direction);
+    double c = v3_get_length_squared(oc) - radius * radius;
+    double discriminant = b * b - a * c;
 
-    return discriminant > 0;
+    if (discriminant < 0) {
+        return -1.0; 
+    } else {
+        return (-b - sqrt(discriminant) / a);
+    }
 }
 
 v3_colour ray_colour(ry_ray* r) {
-    if (hit_sphere(r)) { 
-        
-        return v3_new(1.0, 0.0, 0.0); 
+    double t = hit_sphere(r, 0.5, v3_new(0.0, 0.0, -1.0));
+    if (t > 0.0) { 
+        v3_vec3 normal = v3_normalise(v3_subtract(ry_at(*r, t), v3_new(0, 0, -1)));
+        return v3_multiply_scalar(v3_new(normal.x + 1, normal.y + 1, normal.z + 1), 0.5);
     }
 
     v3_vec3 direction = v3_normalise(r->direction);
 
-    double t = 0.5 * (direction.y + 1.0);
+    t = 0.5 * (direction.y + 1.0);
 
     v3_vec3 start_value = v3_new(1.0, 1.0, 1.0);
     v3_vec3 end_value = v3_new(0.5, 0.7, 1.0);
@@ -62,7 +66,7 @@ int main() {
                 This determines where on the screen to render
 
                 l + u*h + v*v - o
-                ^ Lower left corner + scaled up uv coordinates, which are then centered in the camera
+                ^ Lower left corner + scaled up uv coordinates, which are then centreed in the camera
             */
             ry_ray r = ry_new_ray(origin, 
                 v3_add(v3_add(

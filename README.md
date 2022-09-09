@@ -7,3 +7,8 @@ Progress will be slow as I am taking the time to try and fully understand everyt
 Progress SS 1:
 
 ![EX1](meta/res/ex1.png)
+
+
+Progress SS 2:
+
+![EX1](meta/res/ex2.png)
